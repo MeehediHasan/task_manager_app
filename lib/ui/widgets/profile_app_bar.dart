@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:taskmanager/ui/screens/auth_screen/sign_in_screen.dart';
+import 'package:taskmanager/ui/screens/update_profile_screen.dart';
+
+import '../utility/app_colors.dart';
+import 'network_cached_image.dart';
+
+AppBar profileAppBar(context, [fromUpdateProfile = false]) {
+  return AppBar(
+    backgroundColor: AppColors.themeColor,
+    leading: GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UpdateProfileScreen(),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircleAvatar(
+          child: NetworkCachedImage(
+            url: "",
+          ),
+        ),
+      ),
+    ),
+    title: GestureDetector(
+      onTap: () {
+        if (fromUpdateProfile) {
+          return;
+        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UpdateProfileScreen(),
+          ),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Dami Name",
+            style: TextStyle(fontSize: 14, color: Colors.white),
+          ),
+          Text(
+            "mehedi@gmail.com",
+            style: TextStyle(
+                fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+    ),
+    actions: [
+      IconButton(
+        onPressed: () {
+Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInScreen(),), (route) => false,);
+        },
+        icon: Icon(Icons.logout),
+      )
+    ],
+  );
+}
