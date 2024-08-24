@@ -7,7 +7,6 @@ import '../../data/models/user_model_data.dart';
 class AuthController {
   static const String _accessTokenKey = "access-token";
   static const String _userDataKey = "user-data";
-  static const String _rememberMeKey = "remember-me";
 
   static String accessToken = '';
   static UserModel? userData;
@@ -41,29 +40,14 @@ class AuthController {
     return userModel;
   }
 
-  //remember section
-  static Future<void> saveRememberMeStatus(bool rememberMe) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setBool(_rememberMeKey, rememberMe);
-  }
 
-  static Future<bool> getRememberMeStatus() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(_rememberMeKey) ?? false;
-  }
 
-  //clear data section
-  static Future<void> clearAllData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-  }
 
   //check status section
   static Future<bool> checkAuthState() async {
     String? token = await getUserAccessToken();
-    bool rememberMe = await getRememberMeStatus();
 
-    if (token == null || !rememberMe) return false;
+    if (token == null) return false;
 
     accessToken = token;
     userData = await getUserData();
