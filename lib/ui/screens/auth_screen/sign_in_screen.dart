@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:taskmanager/ui/screens/auth_screen/sign_up_screen.dart';
 import 'package:taskmanager/ui/screens/main_button_nav_screen.dart';
 
+import '../../../data/models/login_model.dart';
 import '../../../data/models/network_response.dart';
 import '../../../data/network_caller/network_caller.dart';
 import '../../../data/utilities/urls.dart';
+import '../../controller/auth_controller.dart';
 import '../../utility/app_colors.dart';
 import '../../widgets/background_widget.dart';
 
@@ -96,7 +98,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        signIn();
+                        if (_formKey.currentState!.validate()) {
+                          signIn();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.themeColor,
@@ -173,13 +177,22 @@ class _SignInScreenState extends State<SignInScreen> {
     };
 
     final NetworkResponse response =
-        await NetworkCaller.postRequest(Urls.login, body: requestData);
+        await NetworkCaller.postResponse(Urls.login, body: requestData);
     _signInApiInProgress = false;
     if (mounted) {
       setState(() {});
     }
 
     if (response.isSuccess) {
+      //-------for save token
+      LoginModel loginModel = LoginModel.fromJson(response.responseData);
+      await AuthController.saveUserAccessToken(loginModel.token!);
+      await AuthController.saveUserData(loginModel.userModel!);
+      // await AuthController.saveRememberMeStatus(_isCheckValue);
+      setState(() {
+        _signInApiInProgress = false;
+      });
+
       if (mounted) {
         Navigator.pushReplacement(
           context,
@@ -188,6 +201,8 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         );
       }
+
+
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -197,20 +212,16 @@ class _SignInScreenState extends State<SignInScreen> {
         );
       }
     }
-
-    setState(() {
-      _signInApiInProgress = false;
-    });
   }
 
-  void _onTapSignUp() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignUpScreen(),
-      ),
-    );
-  }
+  // void _onTapSignUp() {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const SignUpScreen(),
+  //     ),
+  //   );
+  // }
 
   @override
   void dispose() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskmanager/ui/controller/auth_controller.dart';
 import 'package:taskmanager/ui/screens/auth_screen/sign_in_screen.dart';
 import 'package:taskmanager/ui/screens/update_profile_screen.dart';
 
@@ -10,6 +11,9 @@ AppBar profileAppBar(context, [fromUpdateProfile = false]) {
     backgroundColor: AppColors.themeColor,
     leading: GestureDetector(
       onTap: () {
+        if (fromUpdateProfile) {
+          return;
+        }
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -42,11 +46,11 @@ AppBar profileAppBar(context, [fromUpdateProfile = false]) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Dami Name",
+            AuthController.userData?.fullName ?? "",
             style: TextStyle(fontSize: 14, color: Colors.white),
           ),
           Text(
-            "mehedi@gmail.com",
+            AuthController.userData?.email ?? "",
             style: TextStyle(
                 fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400),
           ),
@@ -56,7 +60,13 @@ AppBar profileAppBar(context, [fromUpdateProfile = false]) {
     actions: [
       IconButton(
         onPressed: () {
-Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInScreen(),), (route) => false,);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SignInScreen(),
+            ),
+            (route) => false,
+          );
         },
         icon: Icon(Icons.logout),
       )

@@ -36,7 +36,7 @@ class TaskItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       horizontal: 10, vertical: 8),
                 ),
-                ButtonBar(children: [
+                OverflowBar(children: [
                   IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
                   IconButton(onPressed: (){}, icon: Icon(Icons.edit)),],)
               ],

@@ -16,12 +16,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Future<void> _moveToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
+    bool isUserLoggedIn = await AuthController.checkAuthState();
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) =>SignInScreen(),
+        builder: (context) => isUserLoggedIn ? const MainButtonNavScreen() : const SignInScreen(),
       ),
     );
   }
