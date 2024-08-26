@@ -10,12 +10,16 @@ class NetworkCaller {
   //-------for get request
   static Future<NetworkResponse> getResponse(String url) async {
     try {
+      debugPrint(url);
       Response response = await get(
         Uri.parse(url),
         headers: {
           'token': AuthController.accessToken,
         },
       );
+      debugPrint(response.body.toString());
+      debugPrint(response.statusCode.toString());
+
 
       if (response.statusCode == 200) {
         final decodeData = jsonDecode(response.body);
@@ -48,7 +52,6 @@ class NetworkCaller {
   static Future<NetworkResponse> postResponse(String url,
       {Map<String, dynamic>? body}) async {
     try {
-
       Response response = await post(
         Uri.parse(url),
         body: jsonEncode(body),
@@ -56,7 +59,6 @@ class NetworkCaller {
           'Content-type': 'Application/json',
           'token': AuthController.accessToken,
         },
-
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         debugPrint(response.body);

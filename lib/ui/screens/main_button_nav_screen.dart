@@ -80,7 +80,8 @@ class _MainButtonNavScreenState extends State<MainButtonNavScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await AuthController.clearData();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

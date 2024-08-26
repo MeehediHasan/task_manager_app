@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:taskmanager/app.dart';
 import 'package:taskmanager/ui/screens/auth_screen/sign_up_screen.dart';
 import 'package:taskmanager/ui/screens/main_button_nav_screen.dart';
 
@@ -201,8 +202,8 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         );
       }
-
-
+    } else if (response.statusCode == 401) {
+      _redirectToSignIn();
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -214,14 +215,16 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  // void _onTapSignUp() {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => const SignUpScreen(),
-  //     ),
-  //   );
-  // }
+  static Future<void> _redirectToSignIn() async {
+    AuthController.clearData();
+    Navigator.pushAndRemoveUntil(
+      // if context show error then
+      // TaskManagerApp.navigatorKey.currentState!.context,
+      TaskManagerApp.navigatorKey.currentState!.context,
+      MaterialPageRoute(builder: (context) => const SignInScreen()),
+      (route) => false,
+    );
+  }
 
   @override
   void dispose() {

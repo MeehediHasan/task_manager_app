@@ -178,7 +178,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ],
     );
   }
-
   void _registerUser() async {
     _registerInProgress = true;
     setState(() {});
