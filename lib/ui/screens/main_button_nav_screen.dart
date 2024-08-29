@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:taskmanager/ui/screens/update_profile_screen.dart';
 
@@ -42,10 +44,12 @@ class _MainButtonNavScreenState extends State<MainButtonNavScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: NetworkCachedImage(
-                url: "",
-              ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: CircleAvatar(
+                  child: Image.memory(
+                base64Decode(AuthController.userData?.photo ?? ""),
+              ),),
             ),
           ),
         ),

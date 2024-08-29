@@ -37,7 +37,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: profileAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
         child: Column(
@@ -50,6 +49,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   _getNewTask();
+                  // buildSummarySection();
+                  // profileAppBar(context);
                 },
                 child: Visibility(
                   visible: _getNewTaskApiInProgress == false,
@@ -60,11 +61,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     itemCount: newTaskScreenList.length,
                     itemBuilder: (context, index) {
                       return TaskItem(
-                        taskModelData: newTaskScreenList[index], onUpdateTask: () {
-
-                        _getNewTask();
-                        _getTaskCountByStatus();
-                      },
+                        taskModelData: newTaskScreenList[index],
+                        onUpdateTask: () {
+                          _getNewTask();
+                          _getTaskCountByStatus();
+                        },
                       );
                     },
                   ),

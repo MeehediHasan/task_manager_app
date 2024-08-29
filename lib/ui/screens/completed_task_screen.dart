@@ -43,7 +43,10 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               itemCount: completedTaskScreenList.length,
               itemBuilder: (context, index) {
                 return TaskItem(
-                  taskModelData: completedTaskScreenList[index], onUpdateTask: () {_getCompletedTask();  },
+                  taskModelData: completedTaskScreenList[index],
+                  onUpdateTask: () {
+                    _getCompletedTask();
+                  },
                 );
               },
             ),
